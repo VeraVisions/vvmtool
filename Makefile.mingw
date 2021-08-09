@@ -1,0 +1,19 @@
+CXXFLAGS= -Os -fomit-frame-pointer
+override CXXFLAGS+= -Wall -fsigned-char
+CXX=i686-w64-mingw32-g++
+
+VVM_OBJS= \
+	vvm.o
+
+default: all
+
+all: vvm
+
+clean:
+	-$(RM) $(VVM_OBJS) $(UPGRADE_OBJS) vvm
+
+vvm: $(VVM_OBJS)
+	$(CXX) $(CXXFLAGS) -o vvm.exe $(VVM_OBJS) -static -static-libgcc -static-libstdc++
+
+%.o : %.cpp
+	$(CXX) -o $@ -c $<
