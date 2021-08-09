@@ -7,8 +7,6 @@ bool noext = false;
 bool verbose = false;
 bool quiet = false;
 
-FILE *fAnimLog;
-
 struct ejoint
 {
 	const char *name;
@@ -1444,7 +1442,6 @@ void printlastanim(void)
 		printf("    frame %i:\tname=\"%s\"\tfps=%g, %s\n", anims.length()-1,
 		       &stringdata[a.name], a.fps, (a.flags & VVM_LOOP)?"looped":"clamped");
 	else {
-		fprintf( fAnimLog, "%s,\n", &stringdata[a.name] );
 		printf("    anim %i:\tname=\"%s\",\tframes=%i, fps=%g, %s\n", anims.length()-1,
 		       &stringdata[a.name], a.numframes, a.fps, (a.flags & VVM_LOOP)?"looped":"clamped");
 	}
@@ -4877,9 +4874,6 @@ int main(int argc, char **argv)
 	vector<hitbox> hitboxes;
 	filespec inspec;
 	const char *outfile = NULL;
-	char strAnimLog[80];
-	sprintf( strAnimLog, "%s_anims.log", argv[1] );
-	fAnimLog = fopen( strAnimLog, "w");
 
 	for(int i = 1; i < argc; i++)
 	{
@@ -5009,7 +5003,6 @@ int main(int argc, char **argv)
 	}
 	else fatal("failed writing: %s", outfile);
 
-	fclose( fAnimLog );
 	return EXIT_SUCCESS;
 }
 

@@ -7,7 +7,9 @@ default: all
 all: vvm.exe
 
 clean:
-	-$(RM) vvm.exe
+	-$(RM) vvm.exe vvm.exe.o
 
-vvm.exe:
-	$(CXX) $(CXXFLAGS) -o vvm.exe vvm.cpp -static -static-libgcc -static-libstdc++
+vvm.exe: vvm.exe.o
+	$(CXX) $(CXXFLAGS) -o vvm.exe vvm.exe.o -static -static-libgcc -static-libstdc++
+vvm.exe.o:
+	$(CXX) -o vvm.exe.o -c vvm.cpp

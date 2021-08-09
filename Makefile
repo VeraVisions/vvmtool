@@ -6,7 +6,9 @@ default: all
 all: vvm
 
 clean:
-	-$(RM) vvm
+	-$(RM) vvm vvm.o
 
-vvm:
-	$(CXX) $(CXXFLAGS) -o vvm vvm.cpp
+vvm: vvm.o
+	$(CXX) $(CXXFLAGS) -o vvm vvm.o
+vvm.o:
+	$(CXX) -o vvm.o -c vvm.cpp
