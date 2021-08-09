@@ -1,11 +1,4 @@
 # vvmtool
-## Inter Quake Model & VVM Exporter
-
-This is the exporter for our extended model format (**VVM**).
-
-It can export both **standard IQM files** and our **extended format called VVM** for use in **FTEQW**.
-
-It's based off Lee Salzman's iqm tool.
 
 **These days, you can find an upgraded version of this tool that supports loads more formats in the
 [FTE SRC](https://sourceforge.net/p/fteqw/code/HEAD/tree/), however links against more dependencies**
@@ -14,7 +7,15 @@ It's based off Lee Salzman's iqm tool.
 
 It will be updated if we make changes to our format, those will also be pushed upstream to FTE's general purpose model exporter tool.
 
-# Features
+## Inter Quake Model & VVM Exporter
+
+This is the exporter for our extended model format (**VVM**).
+
+It can export both **standard IQM files** and our **extended format called VVM** for use in **FTEQW**.
+
+It's based off Lee Salzman's iqm tool.
+
+### Features
 
 Features that the original IQM exporter did not offer:
 
@@ -37,7 +38,7 @@ Some features that our extended specification (VVM) has to offer:
 
 The tool's output will let you know if you're outputting an IQM compatible file or not.
 
-# Building
+### Building
 
 Make sure you have a C++ compiler installed and issue:
 
@@ -45,11 +46,11 @@ Make sure you have a C++ compiler installed and issue:
 
 There's a Makefile for mingw cross-compilation as well.
 
-# Usage
+### Usage
 
 Please read the `vvm.txt` file included in this repository for more information.
 
-# Contributing
+### Contributing
 
 If you're looking for bug-fixes to the existing tool, stay here and post issues
 and send pull requests if you happen to find bugs!
@@ -60,7 +61,7 @@ specializes in that sort of thing.
 
 Any bugs that get fixed here will be checked against the above tool as well.
 
-# History
+### History
 In 2016 when we had our first prototype of The Wastes, we started out using DPM for
 toolchain related reasons and quickly migrated to IQM. However we needed a better
 system for handling reproducible output files. The original tool only handled
@@ -82,7 +83,7 @@ in conjunction with the FTEQW builtins that'd later be exposed to the game-logic
 However, the initial extensions to the IQM format in FTE were designed by us; and this
 is the exporter that was used to make our game.
 
-# Notes
+### Notes
 Extra resources, such as the pre-release files we shared on inside3d.com:
 
 * [vvm docs](https://www.vera-visions.com/dev/vvm-docs-1.zip)
@@ -90,7 +91,7 @@ Extra resources, such as the pre-release files we shared on inside3d.com:
 * [July 2017: old sources dated](https://www.vera-visions.com/dev/vvm-src-1.zip)
 * [July 2017: old win32 binary](https://www.vera-visions.com/dev/vvm-w32-1.zip)
 
-# LICENSE
+### LICENSE
 
 Copyright (c) 2010-2016 Lee Salzman
 
