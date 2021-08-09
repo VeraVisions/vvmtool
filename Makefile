@@ -3,15 +3,15 @@ override CXXFLAGS+= -Wall -fsigned-char
 
 default: all
 
-all: vvm
+all: vvmtool
 
 clean:
-	-$(RM) vvm vvm.o
+	-$(RM) vvmtool vvm.o
 	
 %.o : %.cpp
 	$(CXX) -o $@ -c $<
 
-vvm: vvm.o
-	$(CXX) -o vvm $^
+vvmtool: vvm.o
+	$(CXX) -o vvmtool $^
 
 vvm.o: vvm.cpp vvm.h util.h

@@ -4,15 +4,15 @@ CXX=i686-w64-mingw32-g++
 
 default: all
 
-all: vvm.exe
+all: vvmtool.exe
 
 clean:
-	-$(RM) vvm.exe vvm.w32.o
+	-$(RM) vvmtool.exe vvm.w32.o
 
 %.w32.o : %.cpp
 	$(CXX) -o $@ -c $<
 
-vvm.exe: vvm.w32.o
-	$(CXX) -o vvm.exe $^ -static -static-libgcc -static-libstdc++
+vvmtool.exe: vvm.w32.o
+	$(CXX) -o vvmtool.exe $^ -static -static-libgcc -static-libstdc++
 
 vvm.w32.o: vvm.cpp vvm.h util.h
