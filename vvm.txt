@@ -1,0 +1,124 @@
+Vera Visions Model
+Readme 1.1
+===================
+
+Vera Visions Model, short VVM, used to be called IQM-EXT (or sometimes IQM-FTE).
+Due to the fact that the IQM prefix will cause confusion in regards
+to compatibility and the format not entirely being exclusive to FTE (the engine
+we are using for The Wastes) we decided to name it something more specific.
+Thanks a lot to Spike for the implementation of our spec. Without him
+we'd still be stuck with the original tools.
+
+This documentation is for our exporter - while its primary use was
+to create a new, extended format that's compatible with the FTE QuakeWorld engine
+the exporter and its output are completely compatible with engines that do not read
+the enhanced format yet. Do NOT expect to use any of the new features though.
+
+Features that the original IQM exporter did not offer:
+
+- Rotating the entire output or single scenes
+- Proper position offsetting of the entire output or single scenes
+- Support for external configuration files for IQM generation (ala studiomdl)
+
+Some features that our extended specification (VVM) has to offer:
+
+- Support for hitmeshes for faster, content-aware collision detection
+- Automatic hitmesh generation
+- Submodels that allow showing/hiding specific groups of the model via the game-logic
+- Support for frame triggered events that can be read by the game-logic
+
+Let's get started!
+
+Basic Usage
+===========
+
+The official exporter has the following usage:
+
+./iqm output.iqm reference.file [--options] ...sequences (optional)
+
+If you are working on models with more than a dozen animations, you will already 
+feel the pain of having to scroll horizontally with most text-editors.
+
+With our updated exporter, we decided to ditch the parameter oriented approach
+to take full advantage of the features and to improve readability and our workflow.
+
+	./vvm input.file
+
+...is all you'd need. 
+Now, let's show you a basic input file:
+
+input.file:
+	output output.vvm
+	scene reference_mesh.smd
+	scene animation1.smd fps 25
+
+And that's about it. 
+The 'model' line tells you the output filename, aka that's the file the exporter will generate.
+The first 'scene' line refers to a reference mesh file, the one with all the polygons. You
+can have as many as you like and they will be stitched together "as one" in the exported file.
+The second scene line in this example imports an animation file and specifies the playback
+framerate to be 25 frames per second.
+
+Note that you can still use other formats instead of SMD as input files for references/sequences.
+
+Let's take a look at an older example input file 
+right from the development of The Wastes:
+
+	output view_tommygun.vvm
+	bone "Bone55" rename "Muzzleflash"
+	scene ref_tommygun.smd
+	rotate 0 -90 0
+	scene idle.smd fps 20
+	scene idle_fidget1.smd fps 20
+	scene idle_fidget2.smd fps 20
+	scene reload.smd fps 22
+	scene draw.smd fps 25
+	scene holster.smd fps 25
+	scene shoot.smd fps 34
+	scene shoot_last.smd fps 34
+	scene shoot_empty.smd fps 34
+
+This is one of the lesser-simple ones, since we are renaming a bone, had to rotate 
+the model by 90 degrees and have a bunch of animations with varying framerates.
+
+Command reference
+=================
+
+Here is a list of all the commands you can issue when constructing your input file ( [xyz] parameters being optional ):
+
+Header/Command Format:
+	output <FILENAME> - specified the output file name. you should only have one of these.
+	exec <FILENAME> - exec the specified command file, before parsing the rest of the current file.
+	hitbox <BODY NUM> <BONE NAME> <MIN POS VECTOR> <MAX POS VECTOR> - generates a hitmesh as a bbox centered around the bone in the base pose (the hitbox will rotate/move with animations). The bodynum will be visible to gamecode, and may merge with other hitboxes with the same group.
+	modelflags <NAME OR HEX> - enables the specified bit in the iqm header. supported names include q1_rocket, q1_grenade, q1_gib, q1_rotate, q1_tracer1, q1_zomgib, q1_tracer2, q1_tracer3
+	<MESH PROPERTY> - defined below and applied as the defaults to the following import lines as well as mesh lines.
+	mesh <NAME> [MESH PROPERTIES LIST] - provides overrides for a single named mesh (properties used will be those as they're already defined, if not otherwise listed).
+	bone <SOURCENAME> [rename <NEWNAME>] [group <GROUPNUM>] - provides bone renaming and grouping. try to avoid renaming two bones to the same resulting name... groups may have limitations if a parent/child relationship cannot be honoured. lowest group numbers come before higher groups. by default bones will inherit their group from their parent.
+	<IMPORT PROPERTY> - defined below and applied as the defaults to the following import lines.
+	import <FILENAME> [IMPORT PROPERTIES] [MESH PROPERTIES] - imports the meshes and animations from the specified file.
+
+Shared Scene Properties:
+	rotate <PITCH> <YAW> <ROLL> - rotates the model
+	scale <SCALER> - rescales the model
+	origin <X> <Y> <Z> - moves the thing
+	materialprefix <PREFIX/> - provides a text prefix on the material name, which should make it easier for editors while still honouring shader paths.
+	nomesh <1|0> - discards all meshed from the affected files.
+	noanim <1|0> - discards animations from the affected files, does not disclude the base pose.
+
+Reference Properties:
+	contents <NAMES OR 0xBITS> - 'body' or 'empty' are the two that are most likely to be used. 'solid' may also be desired, or possibly also 'corpse'.
+	surfaceflags <NAMES OR 0xBITS> - self explanatory, can also use 'q3_nodraw/fte_nodraw'
+	body <NUMBER> - this is the 'body' value reported to gamecode when a trace hits this surface.
+	geomset <GEOMGROUP> <GEOMID> - pretty much submodels.
+	lodrange <MINDIST> <MAXDIST> - not yet implemented by the engine. 0 for both is the default.
+
+Animation Properties:
+	name <NAME> - the imported animations will be assigned this name. May be problematic if the imported file(s) share the same name, so try to avoid using this at global scope.
+	fps <RATE> - framerate for any imported animations.
+	loop - flags animations as looping.
+	clamp - disables looping.
+	unpack - seperates each pose/frame of the animations into a seperate single-pose animation for compat with q1 or q2-style model animations.
+	pack - disables unpacking again
+	start <FIRSTPOSE> - the first pose/frame to import.
+	end <LASTPOSE> - the last pose/frame to import.
+	event [ANIM]<POSE> <EVENTCODE> <"EVENTDATA"> - embeds event info within the animation. If used at global scope, can be reset with 'event reset' in order to not apply to later files.

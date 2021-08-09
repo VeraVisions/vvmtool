@@ -45,6 +45,10 @@ Make sure you have a C++ compiler installed and issue:
 
 ```make```
 
+# Usage
+
+Please read the `vvm.txt` file included in this repository for more information.
+
 # LICENSE
 
 Copyright (c) 2010-2016 Lee Salzman
