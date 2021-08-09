@@ -1,19 +1,19 @@
 # vvmtool
 ## Inter Quake Model & VVM Exporter
 
-This is the exporter for our extended model format (**VVM**). It's based off IQM and to
-some extent is backwards compatible (this was done so that editors capable of
-displaying IQM files would *just work*, however it depends on how the loader is written.
+This is the exporter for our extended model format (**VVM**).
 
-It can export both standard IQM files and our extended format for use in FTEQW.
+It can export both **standard IQM files** and our **extended format** for use in **FTEQW**.
 
-**These days, you can find an updated version of this tool inside the
+It's based off Lee Salzman's iqm tool.
+
+**These days, you can find an upgraded version of this tool inside the
 [FTE SRC](https://sourceforge.net/p/fteqw/code/HEAD/tree/), that has become
-much more than a model exporter and become less portable as a result.**
+much more than an iqm exporter and links against more dependencies.**
 
 *For those reasons, we are preserving our version of the original, extended tool here.*
 
-It will be updated if we make changes to our format, those will also be pushed upstream to FTE's tool.
+It will be updated if we make changes to our format, those will also be pushed upstream to FTE's general purpose model exporter tool.
 
 # Features
 
