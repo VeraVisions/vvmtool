@@ -7,9 +7,12 @@ default: all
 all: vvm.exe
 
 clean:
-	-$(RM) vvm.exe vvm.exe.o
+	-$(RM) vvm.exe vvm.w32.o
 
-vvm.exe: vvm.exe.o
-	$(CXX) $(CXXFLAGS) -o vvm.exe vvm.exe.o -static -static-libgcc -static-libstdc++
-vvm.exe.o:
-	$(CXX) -o vvm.exe.o -c vvm.cpp
+%.w32.o : %.cpp
+	$(CXX) -o $@ -c $<
+
+vvm.exe: vvm.w32.o
+	$(CXX) -o vvm.exe $^ -static -static-libgcc -static-libstdc++
+
+vvm.w32.o: vvm.cpp vvm.h util.h

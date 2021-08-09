@@ -3,9 +3,11 @@
 #define VVM_UNPACK (1u<<31)     //animations will be unpacked into individual frames-as-animations (ie: no more framegroups)
 #define VVM_ALLPRIVATE (VVM_UNPACK)
 
-bool noext = false;
+bool noext = false; /* not fully working */
 bool verbose = false;
 bool quiet = false;
+
+bool ext_detected = false;
 
 struct ejoint
 {
@@ -4644,8 +4646,9 @@ bool parsemeshfield(const char *tok, char **line, meshprop &spec, bool defaults)
 		};
 		spec.surfaceflags = parsebits(surfaceflagnames, line);
 	}
-	else if (!strcasecmp(tok, "body"))
+	else if (!strcasecmp(tok, "body")) {
 		spec.body = strtoul(mystrtok(line), NULL, 0);
+	}
 	else if (!strcasecmp(tok, "geomset"))
 	{
 		spec.geomset = strtoul(mystrtok(line), NULL, 0);
@@ -4658,6 +4661,8 @@ bool parsemeshfield(const char *tok, char **line, meshprop &spec, bool defaults)
 	}
 	else
 		return false;
+
+	ext_detected = true;
 	return true;
 }
 
@@ -4721,6 +4726,7 @@ bool parseanimfield(const char *tok, char **line, filespec &spec, bool defaults)
 		}
 		ev.evcode = atoi(mystrtok(line));
 		ev.evdata_str = newstring(mystrtok(line));
+		ext_detected = true;
 	}
 	else if (parsemeshfield(tok, line, spec.meshprops, defaults))
 		;
@@ -4999,7 +5005,7 @@ int main(int argc, char **argv)
 	if(writevvm(outfile))
 	{
 		if (!quiet)
-			conoutf("exported: %s", outfile);
+			conoutf("exported %s format file: %s", ext_detected ? "VVM" : "IQM", outfile);
 	}
 	else fatal("failed writing: %s", outfile);
 

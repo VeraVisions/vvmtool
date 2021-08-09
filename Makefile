@@ -7,8 +7,11 @@ all: vvm
 
 clean:
 	-$(RM) vvm vvm.o
+	
+%.o : %.cpp
+	$(CXX) -o $@ -c $<
 
 vvm: vvm.o
-	$(CXX) $(CXXFLAGS) -o vvm vvm.o
-vvm.o:
-	$(CXX) -o vvm.o -c vvm.cpp
+	$(CXX) -o vvm $^
+
+vvm.o: vvm.cpp vvm.h util.h
