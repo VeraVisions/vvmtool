@@ -71,10 +71,10 @@ Please read the `vvm.txt` file included in this repository for more information.
 # Notes
 Extra resources, such as the pre-release files we shared on inside3d.com:
 
-* [vvm docs](vera-visions.com/dev/vvm-docs-1.zip)
-* [vvm example model sources](vera-visions.com/dev/vvm_example.zip)
-* [July 2017: old sources dated](vera-visions.com/dev/vvm-src-1.zip)
-* [July 2017: old win32 binary](vera-visions.com/dev/vvm-w32-1.zip)
+* [vvm docs](https://www.vera-visions.com/dev/vvm-docs-1.zip)
+* [vvm example model sources](https://www.vera-visions.com/dev/vvm_example.zip)
+* [July 2017: old sources dated](https://www.vera-visions.com/dev/vvm-src-1.zip)
+* [July 2017: old win32 binary](https://www.vera-visions.com/dev/vvm-w32-1.zip)
 
 # LICENSE
 
