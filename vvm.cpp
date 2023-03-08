@@ -168,7 +168,7 @@ struct filespec
 	{
 		file = NULL;
 		name = NULL;
-		fps = 24;
+		fps = 0;
 		flags = 0;
 		startframe = 0;
 		endframe = -1;
@@ -2586,7 +2586,7 @@ bool loadsmd(const char *filename, const filespec &spec)
 
 	delete f;
 
-	if(hastriangles)
+	if(!spec.fps && hastriangles)
 	{
 		eframes.setsize(firstframe);
 		makeanims(spec);
